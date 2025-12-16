@@ -5,6 +5,8 @@ import membrete from "../../assets/membrete.png";
 import { downloadBoletaZip } from './helpers/compressFile';
 import '../../styles/boletasList.css'
 import { previewBoletaPDF } from './helpers/previewPdf';
+
+import { generateBoletaWord } from '../boletin/helpers/generateWord'
 import generateHtmlContent from './helpers/generateHtml';
 
 export default function BoletasList() {
@@ -135,7 +137,7 @@ export default function BoletasList() {
                                     <button type="button" onClick={() => handleEdit(b)}>Editar</button>
                                     <button type="button" onClick={() => handleDelete(b.id)}>Eliminar</button>
                                     <button type="button" onClick={() => handlePrint(b, false)}>Imprimir</button>
-                                    <button type="button" onClick={() => previewBoletaPDF(b, docente, membrete, fontSizeTitle, fontSize)}>
+                                    <button type="button" onClick={() => generateBoletaWord(b, docente, membrete, fontSizeTitle, fontSize)}>
                                         Descargar ZIP
                                     </button>
                                 </td>

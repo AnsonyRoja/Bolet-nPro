@@ -19,11 +19,11 @@ export const downloadBoletaZip = async (boleta) => {
     const pdfBlob = pdf.output('blob');
 
     // Word desde boleta
-    const wordBlob = await generateWordFromHTML(boleta);
+    // const wordBlob = await generateWordFromHTML(boleta);
 
     // Agregar archivos al ZIP
     zip.file(`Boleta_${boleta.estudiante}.pdf`, pdfBlob);
-    zip.file(`Boleta_${boleta.estudiante}.docx`, wordBlob);
+    // zip.file(`Boleta_${boleta.estudiante}.docx`, wordBlob);
 
     const content = await zip.generateAsync({ type: "blob" });
     saveAs(content, `Boleta_${boleta.estudiante}.zip`);

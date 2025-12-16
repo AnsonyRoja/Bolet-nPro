@@ -130,6 +130,7 @@ export default function BoletinForm() {
 
     const watchedData = watch();
 
+
     useEffect(() => {
         if (!watchedData) return;
 
@@ -149,7 +150,20 @@ export default function BoletinForm() {
 
             localStorage.setItem('boletin', JSON.stringify(watchedData));
         }
+
+
     }, []);
+
+
+    const faltas = parseFloat(watch("faltas")) || 0;
+    const clasesTotales = parseFloat(watch("clasesTotales")) || 1;
+
+    // Actualiza React Hook Form automáticamente
+    useEffect(() => {
+        const porcentaje = ((faltas / clasesTotales) * 100).toFixed(2);
+        setValue("totalInasistencia", porcentaje); // se guarda en React Hook Form
+    }, [faltas, clasesTotales, setValue]);
+
 
 
 
@@ -190,11 +204,11 @@ export default function BoletinForm() {
                 {...register('cedulaEscolar', {
                     required: 'La cédula es obligatoria',
                     pattern: {
-                        value: /^V-\d{6,13}$/,
+                        value: /^(V|E)-\d{6,13}$/,
                         message: 'Formato inválido. Ej: V-12345678'
                     }
                 })}
-                placeholder="V-12345678"
+                placeholder="E|V-12345678"
                 onChange={(e) => setValue('cedulaEscolar', e.target.value.toUpperCase())}
             />
 
@@ -327,6 +341,42 @@ export default function BoletinForm() {
 
                 <label>Deberes de los Niños(as) y Adolescentes</label>
                 <textarea {...register('deberes')} />
+                <div className="input-group">
+                    <label htmlFor="faltas">Faltas (inasistencias):</label>
+                    <input
+                        type="number"
+                        id="faltas"
+                        {...register("faltas", { min: 0 })}
+                        placeholder="0"
+                        className="input-field"
+                        min={0}
+                    />
+                </div>
+
+                <div className="input-group">
+                    <label htmlFor="clasesTotales">Clases totales:</label>
+                    <input
+                        type="number"
+                        id="clasesTotales"
+                        {...register("clasesTotales", { min: 1 })}
+                        placeholder="0"
+                        className="input-field"
+                        step="any"
+                        min={0}
+
+                    />
+                </div>
+
+                <div className="input-group">
+                    <label>Total de inasistencias (%):</label>
+                    <input
+                        type="text"
+                        {...register("totalInasistencia")}
+                        value={watch("totalInasistencia")} // solo lectura
+                        readOnly // bloqueado para que no se pueda editar
+                        className="input-field"
+                    />
+                </div>
 
                 <div className="section-title">Escala</div>
                 <EscalaTable register={register} />

@@ -2,7 +2,7 @@
 const generateHtmlContent = (boleta, fontSize, fontSizeTitle, isExplore, docente, membrete, pageBreak = "always") => {
 
 
-    const html = `
+  const html = `
 <html>
 <head>
 <meta charset="UTF-8">
@@ -151,7 +151,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
      <td colspan="2" style="font-size:${fontSizeTitle - 3}pt; border:1px solid #000; text-align:center;">
 
     <span style="font-weight:bold; font-size:${fontSize}pt;">
-        Total de inasistencias: % (0) FALTAS
+        Total de inasistencias: ${boleta.totalInasistencia.replace(".", ",") === "0,00" ? '' : boleta.totalInasistencia.replace(".", ",")} % (${boleta.faltas.length === 0 ? 0 : boleta.faltas}) FALTAS
     </span>
 
   <br>
@@ -184,13 +184,13 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
 
   <tbody>
     <tr>
-      <td style="  border:1px solid #000; font-size:${fontSize}pt; text-align:left;">
+      <td style="border:1px solid #000; font-size:${fontSize}pt; text-align:left;">
         INICIADO
       </td>
-      <td style="font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
+      <td style="font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center; ">
         I
       </td>
-      <td style="border:1px solid #000 ; font-size:${fontSize}pt;">
+      <td style="border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
       ${boleta.escalaGeneral === "I" ? "X" : ""}
         
       </td>
@@ -202,7 +202,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       <td style=" font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
         RA
       </td>
-      <td style="border:1px solid #000 ; font-size:${fontSize}pt;">
+      <td style="border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
       ${boleta.escalaGeneral === "RA" ? "X" : ""}
         
       </td>
@@ -214,8 +214,8 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       <td style=" font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
         PL
       </td>
-      <td style="border:1px solid #000 ; font-size:${fontSize}pt;">
-      ${boleta.escalaGeneral === "PL" ? "X" : ""}
+      <td style="  border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
+      ${boleta.escalaGeneral === "PL" ? "<span style='text-align:center;'>X</span>" : ""}
         
       </td>
     </tr>
@@ -226,7 +226,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       <td style=" font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
         EP
       </td>
-      <td style="border:1px solid #000 ; font-size:${fontSize}pt;">
+      <td style="border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
       ${boleta.escalaGeneral === "EP" ? "X" : ""}
         
       </td>
@@ -238,7 +238,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       <td style="font-weight:bold;border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
         C
       </td>
-      <td style="border:1px solid #000 ; font-size:${fontSize}pt;">
+      <td style="border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
       ${boleta.escalaGeneral === "C" ? "X" : ""}
         
       </td>
@@ -250,7 +250,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       <td style="  font-weight:bold; border:1px solid #000; font-size:${fontSize}pt; text-align:center;">
         +C
       </td>
-      <td style=" border:1px solid #000 ; font-size:${fontSize}pt;">
+      <td style=" border:1px solid #000 ; font-size:${fontSize}pt; text-align:center; vertical-align:middle;">
       ${boleta.escalaGeneral === "+C" ? "X" : ""}
         
       </td>
@@ -310,7 +310,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
 </html>
 `;
 
-    return html
+  return html
 
 }
 

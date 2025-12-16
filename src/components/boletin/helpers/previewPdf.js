@@ -278,25 +278,353 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.setDrawColor(0, 0, 0);
     pdf.setLineWidth(1);
 
-    pdf.setFont('helvetica', 'bold');
-    pdf.setFontSize(fontSizeTitle);
-    pdf.text('CONTENIDO DE LA NUEVA PÁGINA', pdf.internal.pageSize.getWidth() / 2, newY, { align: 'center' });
-    newY += 20;
+
 
     // Puedes agregar otra tabla o cualquier contenido
     autoTable(pdf, {
         startY: newY,
-        head: [["OTRA TABLA", "VALOR"]],
-        body: [
-            ["Dato 1", "Valor 1"],
-            ["Dato 2", "Valor 2"],
-        ],
-        theme: 'grid',
+        theme: "grid",
         styles: {
+            lineColor: [0, 0, 0],
+            lineWidth: 0.5,
+            font: "helvetica",
             fontSize: fontSize,
-            cellPadding: 4,
+            cellPadding: 5,
+            overflow: "linebreak",
+            textColor: 0,
+        },
+        columnStyles: {
+            0: { cellWidth: 95 },
+            1: { cellWidth: 95 },
+        },
+        body: [
+
+            // EDUCACIÓN FÍSICA
+            [
+                {
+                    content: "EDUCACIÓN FÍSICA, DEPORTE Y RECREACIÓN",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: boleta.educacionFisica || "",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, halign: "justify" }
+                }
+            ],
+
+            // AJEDREZ
+            [
+                {
+                    content: "AJEDREZ",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: boleta.ajedrez || "",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, halign: "justify" }
+                }
+            ],
+
+            // INGLÉS
+            [
+                {
+                    content: "INGLÉS (INSTITUTO CLEVELAND)",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: boleta.ingles || "",
+                    colSpan: 2,
+                    styles: { fontSize: fontSize, halign: "justify" }
+                }
+            ],
+
+            // MATIFIC
+            [
+                {
+                    content: "MATIFIC – ESTRELLAS ALCANZADAS",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: boleta.matific || "",
+                    colSpan: 2,
+                    styles: { fontSize: fontSize, halign: "center" }
+                }
+            ],
+
+            // RECOMENDACIONES
+            [
+                {
+                    content: "RECOMENDACIONES PARA EL REPRESENTANTE",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: boleta.recomendaciones || "",
+                    colSpan: 2,
+                    styles: { fontSize: fontSize, halign: "justify" }
+                }
+            ],
+
+            // DEBERES
+            [
+                {
+                    content: "DEBERES DE LOS NIÑOS (AS) Y ADOLESCENTES",
+                    colSpan: 2,
+                    styles: { fontSize: fontSizeTitle - 3, fontStyle: "bold", halign: "center" }
+                }
+            ],
+            [
+                {
+                    content: "",
+                    colSpan: 2,
+                    styles: { minCellHeight: 10 },
+                    deberesParcial: true
+
+                }
+            ],
+            [
+                {
+                    colSpan: 2,
+                    styles: { minCellHeight: 60 },
+                    content: "", // dejamos vacío porque dibujaremos todo
+                    customRow: true
+                }
+            ]
+
+        ],
+        didDrawCell: function (data) {
+            console.log('data', data.cell.raw);
+            if (data.cell.raw?.customRow) {
+                const paddingX = 5;
+                const paddingY = 10;
+                const x = data.cell.x + paddingX;
+                let y = data.cell.y + paddingY;
+
+                // Usamos el ancho real de la celda menos solo el padding
+                const cellWidth = data.cell.width - paddingX * 2;
+
+                // --- Parte 1: Total de inasistencias (centrado y negrita) ---
+                const totalInasistencias = `Total de inasistencias: ${boleta.totalInasistencia.replace(".", ",") === "0,00" ? "" : boleta.totalInasistencia.replace(".", ",")} % (${boleta.faltas.length === 0 ? 0 : boleta.faltas}) FALTAS`;
+
+                pdf.setFont("helvetica", "bold");
+                pdf.text(totalInasistencias, x + cellWidth / 2, y, { align: "center" });
+                const textoCompletoOriginal = boleta.deberes || "";
+                const inicioNegrita = 0;
+                const finNegrita = 24;
+                const lineHeight = 12;
+                let cursorY = y + 10;
+                const textoAEliminar =
+                    'Articulo 93 Literal f de la LOPNA "Cumplir sus obligaciones en materia de educación".';
+                const textoCompleto = textoCompletoOriginal
+                    .replace(textoAEliminar, "")
+                    .trim();
+                console.log('Texto completo', textoCompleto);
+
+                // Dividir texto en líneas usando TODO el ancho
+                const lineas = pdf.splitTextToSize(textoCompleto, cellWidth);
+
+                let charIndexGlobal = 0;
+
+                lineas.forEach(linea => {
+                    let cursorX = x;
+                    let buffer = "";
+                    let bufferStartIndex = charIndexGlobal;
+
+                    for (let i = 0; i < linea.length; i++) {
+                        const char = linea[i];
+                        const globalIndex = charIndexGlobal;
+
+                        const debeIrNegrita =
+                            globalIndex >= inicioNegrita && globalIndex < finNegrita;
+
+                        const bufferDebeIrNegrita =
+                            bufferStartIndex >= inicioNegrita && bufferStartIndex < finNegrita;
+
+                        // Si cambia el estado de negrita → pintar buffer
+                        if (buffer.length > 0 && debeIrNegrita !== bufferDebeIrNegrita) {
+                            pdf.setFont("helvetica", bufferDebeIrNegrita ? "bold" : "normal");
+                            pdf.setFontSize(fontSize);
+                            pdf.text(buffer, cursorX, cursorY);
+                            cursorX += pdf.getTextWidth(buffer);
+
+                            buffer = "";
+                            bufferStartIndex = globalIndex;
+                        }
+
+                        buffer += char;
+                        charIndexGlobal++;
+                    }
+
+                    // Pintar resto del buffer
+                    if (buffer.length > 0) {
+                        const debeIrNegrita =
+                            bufferStartIndex >= inicioNegrita && bufferStartIndex < finNegrita;
+
+                        pdf.setFont("helvetica", debeIrNegrita ? "bold" : "normal");
+
+                        pdf.text(buffer, cursorX, cursorY);
+                    }
+
+                    cursorY += lineHeight;
+                });
+            }
+            if (data.cell.raw?.deberesParcial && data.column.index === 0) {
+                console.log("primero")
+
+                const paddingX = 5;
+                const paddingY = 13;
+
+                const x = data.cell.x + paddingX;
+                const y = data.cell.y + paddingY;
+
+                const cellWidth = data.cell.width - paddingX * 2;
+
+                const textoNegrita = boleta.deberes?.slice(0, 33) || "";
+                const textoNormal = boleta.deberes?.slice(33, 85) || "";
+
+                // Texto en negrita
+                pdf.setFont("helvetica", "bold");
+                pdf.text(textoNegrita, x, y);
+
+                const anchoNegrita = pdf.getTextWidth(textoNegrita);
+
+                // Texto normal (con ajuste automático)
+                pdf.setFont("helvetica", "normal");
+                const textoAjustado = pdf.splitTextToSize(
+                    textoNormal,
+                    cellWidth - anchoNegrita
+                );
+
+                pdf.text(
+                    textoAjustado,
+                    x + anchoNegrita,
+                    y
+                );
+            }
         }
-    })
+    });
+
+
+    const tableWidth = 150 + 25 + 18;
+
+    autoTable(pdf, {
+        startY: pdf.lastAutoTable.finalY + 20,
+
+        margin: {
+            left: (pageWidth - tableWidth) / 2   // ✅ centrado real
+        },
+
+        theme: "grid",
+
+        styles: {
+            lineColor: [0, 0, 0],
+            font: "helvetica",
+            fontSize: fontSize,
+            halign: "center",
+            valign: "middle",
+            lineWidth: 0.3
+        },
+
+        headStyles: {
+            fillColor: false,
+            textColor: 0,
+            fontStyle: "bold",
+            fontSize: fontSizeTitle - 3
+        },
+
+        columnStyles: {
+            0: { halign: "left", cellWidth: 150 },
+            1: { halign: "center", fontStyle: "bold", cellWidth: 25 },
+            2: { halign: "center", cellWidth: 18 }
+        },
+
+        head: [[
+            {
+                content: "ESCALA",
+                colSpan: 3,
+                styles: { halign: "center", fontStyle: "bold" }
+            }
+        ]],
+
+        body: [
+            ["INICIADO", "I", boleta.escalaGeneral === "I" ? "X" : ""],
+            ["REQUIERE AYUDA", "RA", boleta.escalaGeneral === "RA" ? "X" : ""],
+            ["PROCESO LENTO", "PL", boleta.escalaGeneral === "PL" ? "X" : ""],
+            ["EN PROCESO", "EP", boleta.escalaGeneral === "EP" ? "X" : ""],
+            ["CONSOLIDADO", "C", boleta.escalaGeneral === "C" ? "X" : ""],
+            ["MAS QUE CONSOLIDADO", "+C", boleta.escalaGeneral === "+C" ? "X" : ""]
+        ]
+    });
+
+
+    // Y inicial: debajo de la última tabla
+    const startY = pdf.lastAutoTable.finalY + 50;
+
+
+    // Ancho por bloque (3 columnas)
+    const blockWidth = pageWidth / 3;
+
+    // Tamaño de fuente
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(fontSize);
+
+    // -------------------- DIRECTORA --------------------
+    const xDirectora = blockWidth * 0 + blockWidth / 2;
+
+    pdf.line(
+        xDirectora - 55,
+        startY,
+        xDirectora + 55,
+        startY
+    );
+
+    pdf.text("FRANCIS GUTIÉRREZ", xDirectora, startY + 11, { align: "center" });
+    pdf.text("DIRECTORA", xDirectora, startY + 20, { align: "center" });
+
+    // -------------------- DOCENTE + SELLO --------------------
+    const xDocente = blockWidth * 1 + blockWidth / 2;
+
+    // Texto SELLO (espacio reservado)
+    pdf.text("SELLO", xDocente, startY - 25, { align: "center" });
+
+    // Línea de firma
+    pdf.line(
+        xDocente - 55,
+        startY + 55,
+        xDocente + 55,
+        startY + 55
+    );
+
+    pdf.text("YRIS RAMÍREZ", xDocente, startY + 75, { align: "center" });
+    pdf.text("DOCENTE DE AULA", xDocente, startY + 65, { align: "center" });
+
+    // -------------------- COORDINADOR --------------------
+    const xCoord = blockWidth * 2 + blockWidth / 2;
+
+    pdf.line(
+        xCoord - 55,
+        startY,
+        xCoord + 55,
+        startY
+    );
+
+    pdf.text("LIZMARY PÉREZ", xCoord, startY + 10, { align: "center" });
+    pdf.text("COORD. EDUC. PRIMARIA", xCoord, startY + 21, { align: "center" });
+
 
 
 
