@@ -8,6 +8,10 @@ import { useNavigate, useLocation } from 'react-router-dom';
 
 import EscalaTable from './escalaTable';
 
+const DERECHOS_DEFAULT = `Todos los niños, niñas y adolescentes, tienen derecho a participar activamente en las diferentes actividades
+planificadas y/o por el docente, así como también la participación del padre o representante (Artículo 55 y 81
+de la Ley Orgánica de Protección del Niño y del Adolescente).`
+
 const DEBERES_DEFAULT = `Articulo 93 Literal f de la LOPNA "Cumplir sus obligaciones en materia de educación".
 
 Articulo 109 de la RGLOE "La asistencia a clases es obligatoria. El porcentaje mínimo de asistencia para optar a la aprobación de un grado, área o asignatura o similar según el caso, será de 75%. Queda a salvo lo que se determine en el artículo 60 del reglamento."`;
@@ -41,8 +45,8 @@ export default function BoletinForm() {
         ingles: '',
         matific: '',
         recomendaciones: '',
-        derechos: '',
-        deberes: DEBERES_DEFAULT // este sí se mantiene
+        derechos: DERECHOS_DEFAULT,
+        deberes: DEBERES_DEFAULT
     };
 
     const {
@@ -56,7 +60,8 @@ export default function BoletinForm() {
         defaultValues: boletaProp
             ? boletaProp : {
                 ...boletin,
-                deberes: boletin.deberes ?? DEBERES_DEFAULT
+                deberes: boletin.deberes ?? DEBERES_DEFAULT,
+                derechos: boletin.derechos ?? DERECHOS_DEFAULT
             }
     });
 
@@ -135,7 +140,7 @@ export default function BoletinForm() {
         if (!watchedData) return;
 
         if (!boletin.deberes) setValue('deberes', DEBERES_DEFAULT);
-
+        if (!boletin.derechos) setValue('derechos', DERECHOS_DEFAULT);
         if (boletaProp) {
             reset(boletaProp);
             localStorage.setItem('boletin', JSON.stringify(boletaProp));
@@ -342,7 +347,7 @@ export default function BoletinForm() {
                 <label>Deberes de los Niños(as) y Adolescentes</label>
                 <textarea {...register('deberes')} />
                 <div className="input-group">
-                    <label htmlFor="faltas">Faltas (inasistencias):</label>
+                    <label htmlFor="faltas">Faltas (Inasistencias):</label>
                     <input
                         type="number"
                         id="faltas"
@@ -368,7 +373,7 @@ export default function BoletinForm() {
                 </div>
 
                 <div className="input-group">
-                    <label>Total de inasistencias (%):</label>
+                    <label>Total de Inasistencias (%):</label>
                     <input
                         type="text"
                         {...register("totalInasistencia")}
@@ -381,6 +386,7 @@ export default function BoletinForm() {
                 <div className="section-title">Escala</div>
                 <EscalaTable register={register} />
             </div>
+
             <button type="submit" className="btn-guardar">
                 Guardar Boleta
             </button>
