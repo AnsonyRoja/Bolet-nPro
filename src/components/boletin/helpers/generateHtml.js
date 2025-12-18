@@ -1,4 +1,8 @@
 
+import starImg from '../../../assets/star.png';
+
+
+
 const generateHtmlContent = (boleta, fontSize, fontSizeTitle, isExplore, docente, membrete, pageBreak = "always") => {
 
 
@@ -72,6 +76,8 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
 </div>
 
 <div class="marco page-break">
+<img src="${membrete}" alt="Membrete" style="width:100%;height:auto;margin-bottom:0.2rem;">
+
   <table style="width:100%; border-collapse: collapse; border: 1px solid #000;">
     <!-- Sección Educación Física -->
     <tr>
@@ -117,7 +123,11 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
     </tr>
     <tr>
       <td colspan="2" style=" text-align:center; border:1px solid #000;">
-        <span style="font-size:${fontSize}pt;">${boleta.matific || ''}</span>
+        <span style="font-size: ${fontSize}pt; display: inline-flex; align-items: center; gap: 5px;">
+        
+        ${boleta.matific || ''}
+        ${starImg ? `<img src="${starImg}" style="width: ${fontSize}pt; height: ${fontSize}pt; vertical-align: middle;" />` : ''}
+        </span>
       </td>
     </tr>
 
@@ -280,7 +290,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
       SELLO
     </div>
     <div style="  border-top:1px solid #000; padding-top:4px; font-size:${fontSize}pt;">
-     YRIS RAMÍREZ 
+     YRIS RAMÍREZ <br>
      DOCENTE
     </div>
   </div>
@@ -288,7 +298,7 @@ body{margin:0;padding:0;}.marco{margin: 5px 0 0 0;;}button,.no-print{display:non
   <!-- COORDINADOR (un poco más arriba) -->
   <div style=" font-weight:bold;width:30%; text-align:center; margin-top:5rem; ">
     <div style="border-top:1px solid #000; padding-top:4px; font-size:${fontSize}pt;">
-    LIZMARY PÉREZ  
+    LIZMARY PÉREZ  <br>
     COORD. EDUC. PRIMARIA
     </div>
   </div>

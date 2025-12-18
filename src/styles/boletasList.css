@@ -176,3 +176,112 @@
     background-color: #0056b3;
     border-color: #0056b3;
 }
+
+
+
+
+.btn-download-all {
+    margin-top: 20px;
+    padding: 10px 18px;
+    background-color: #2e7d32;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+
+.btn-download-all:hover {
+    background-color: #1b5e20;
+    transform: translateY(-1px);
+}
+
+
+.btn-download-all:active {
+    transform: translateY(0);
+}
+
+.btn-download-all:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(46, 125, 50, 0.4);
+}
+
+.boletas-download-right {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+
+@media (max-width: 768px) {
+
+    table,
+    thead,
+    tbody,
+    th,
+    tr {
+        display: block;
+    }
+
+    thead {
+        display: none;
+    }
+
+    tr {
+        background: #fff;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        margin-bottom: 16px;
+        padding: 12px;
+    }
+
+    td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        border: none;
+    }
+
+    td::before {
+        content: attr(data-label);
+        font-weight: bold;
+        color: #555;
+        padding-right: 10px;
+    }
+
+    /* Acciones */
+    .actions-cell {
+        flex-wrap: wrap;
+        gap: 6px;
+    }
+
+    .actions-cell button {
+        flex: 1 1 48%;
+        font-size: 12px;
+    }
+}
+
+.btn-delete {
+    background: #ff4d4d !important;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+}

@@ -1,12 +1,17 @@
-import jsPDF from "jspdf";
 import { autoTable } from "jspdf-autotable";
+import startImg from '../../../assets/star.png';
 
 
-export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle, fontSize) => {
-    const pdf = new jsPDF("p", "pt", "a4");
+
+
+
+
+export const previewBoletaPDF = async (pdf, boleta, docente, membrete, fontSizeTitle, fontSize) => {
     fontSize = fontSize - 3;
     const pageWidth = pdf.internal.pageSize.getWidth();
     let y = 30;
+
+
 
     // =========================
     // MARCO DORADO
@@ -31,7 +36,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     // =========================
     // ENCABEZADO
     // =========================
-    pdf.setFont("times", "bold");
+    pdf.setFont("Times", "bold");
     pdf.setFontSize(fontSizeTitle);
 
     pdf.text(
@@ -82,11 +87,11 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
 
 
     pdf.setFontSize(fontSizeTitle - 4);
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     y += 20;
     // Representante
     pdf.text('NOMBRES Y APELLIDOS DEL REPRESENTANTE:', 40, y);
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const representanteText = boleta.representante;
@@ -97,12 +102,12 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     y += 20;
 
     // Estudiante y Edad
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
 
     pdf.text('NOMBRES Y APELLIDOS DEL ESTUDIANTE:', 40, y - 5);
 
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
     const estudianteTextt = boleta.estudiante;
     const estudianteWidth = pdf.getTextWidth(estudianteTextt);
@@ -110,11 +115,11 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.text(boleta.estudiante, 238, y - 5);
     pdf.line(233, y - 3, xStart + estudianteWidth - 15, y - 3);
 
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
     pdf.text('EDAD:', 430, y - 4);
 
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const edadText = boleta.edad.toString(); // <-- texto de la edad
@@ -125,13 +130,13 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.line(edadXStart, y - 2, edadXStart + edadWidth, y - 2); // subrayado exacto
     y += 10;
     // Cédula, Grado, Sección, Docente
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
 
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.text('CÉDULA ESCOLAR:', 40, y);
 
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const cedulaText = boleta.cedulaEscolar; // texto a medir
@@ -142,10 +147,10 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.line(cedulaXStart, y + 2, cedulaXStart + cedulaWidth, y + 2); // línea ajustada al texto
 
 
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
     pdf.text('GRADO:', 210, y);
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const gradoText = docente.grado;
@@ -154,11 +159,11 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
 
     pdf.text(gradoText, gradoXStart, y);
     pdf.line(gradoXStart, y + 2, gradoXStart + gradoWidth, y + 2);
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 3);
     pdf.text('SECCIÓN:', 310, y);
 
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const seccionText = docente.seccion;
@@ -168,12 +173,12 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.line(seccionXStart, y + 2, seccionXStart + seccionWidth, y + 2);
 
 
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
 
     pdf.text('DOCENTE:', 420, y);
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const docenteText = docente.nombre;          // texto del docente
@@ -187,12 +192,12 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     y += 16;
 
     // Año Escolar
-    pdf.setFont('helvetica', 'bold');
+    pdf.setFont('Times', 'bold');
     pdf.setFontSize(fontSizeTitle - 4);
 
     pdf.text('AÑO ESCOLAR:', 40, y);
-    pdf.setFont('helvetica', 'normal');
-    pdf.setFont('helvetica', 'normal');
+    pdf.setFont('Times', 'normal');
+    pdf.setFont('Times', 'normal');
     pdf.setFontSize(fontSize);
 
     const anoEscolarText = docente.anoEscolar;     // texto del año escolar
@@ -246,7 +251,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
         styles: {
             lineColor: [0, 0, 0],
             lineWidth: 0.5,
-            font: "helvetica",
+            font: "Times",
             fontSize: fontSize,
             cellPadding: 5,
             overflow: 'linebreak', // ajusta texto largo en varias líneas
@@ -269,7 +274,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     // NUEVA PÁGINA
     // =========================
     pdf.addPage(); // agrega una página en blanco
-    let newY = 30; // reiniciamos el cursor Y para la nueva página
+    let newY = 50; // reiniciamos el cursor Y para la nueva página
 
     pdf.setLineWidth(4);
     pdf.setDrawColor(212, 175, 55); // gold
@@ -278,6 +283,8 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     pdf.setDrawColor(0, 0, 0);
     pdf.setLineWidth(1);
 
+    pdf.addImage(img, "PNG", 40, 30, imgWidth, imgHeight);
+    const imgStar = await loadImage(startImg);
 
 
     // Puedes agregar otra tabla o cualquier contenido
@@ -287,7 +294,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
         styles: {
             lineColor: [0, 0, 0],
             lineWidth: 0.5,
-            font: "helvetica",
+            font: "Times",
             fontSize: fontSize,
             cellPadding: 5,
             overflow: "linebreak",
@@ -298,9 +305,10 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
             1: { cellWidth: 95 },
         },
         body: [
-
             // EDUCACIÓN FÍSICA
+
             [
+
                 {
                     content: "EDUCACIÓN FÍSICA, DEPORTE Y RECREACIÓN",
                     colSpan: 2,
@@ -357,7 +365,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
             ],
             [
                 {
-                    content: boleta.matific || "",
+                    content: `${boleta.matific}` || "",
                     colSpan: 2,
                     styles: { fontSize: fontSize, halign: "center" }
                 }
@@ -406,8 +414,41 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
             ]
 
         ],
-        didDrawCell: function (data) {
-            console.log('data', data.cell.raw);
+        didDrawCell: async function (data) {
+            console.log('data', data.cell.raw.content);
+
+            if (data.cell.raw && String(data.cell.raw.content) === String(boleta.matific)) {
+                try {
+                    const pdf = data.doc;
+                    const iconSize = 8; // Tamaño del icono (ajusta según necesites)
+                    const spacing = 2;  // Espacio entre el texto y el icono
+
+                    // 1. Obtener el contenido del texto
+                    const text = String(data.cell.raw.content);
+
+                    // 2. Calcular cuánto mide el texto en el PDF
+                    const textWidth = pdf.getTextWidth(text);
+
+                    // 3. Calcular la posición X
+                    // Si la celda está centrada, el texto empieza en: 
+                    // (x de celda + mitad del ancho de celda) - (mitad del ancho del texto)
+                    const textStartX = data.cell.x + (data.cell.width / 2) - (textWidth / 2);
+
+                    // El icono va justo después del texto
+                    const xIcon = textStartX + textWidth + spacing;
+
+                    // 4. Calcular la posición Y (Centrado vertical en la celda)
+                    const yIcon = data.cell.y + (data.cell.height / 2) - (iconSize / 2);
+
+                    // 5. Dibujar el icono
+                    pdf.addImage(imgStar, 'PNG', xIcon, yIcon, iconSize, iconSize);
+
+                    console.log("Icono colocado al lado del texto");
+                } catch (error) {
+                    console.error("Error al colocar el icono:", error);
+                }
+            }
+
             if (data.cell.raw?.customRow) {
                 const paddingX = 5;
                 const paddingY = 10;
@@ -420,7 +461,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
                 // --- Parte 1: Total de inasistencias (centrado y negrita) ---
                 const totalInasistencias = `Total de inasistencias: ${boleta.totalInasistencia.replace(".", ",") === "0,00" ? "" : boleta.totalInasistencia.replace(".", ",")} % (${boleta.faltas.length === 0 ? 0 : boleta.faltas}) FALTAS`;
 
-                pdf.setFont("helvetica", "bold");
+                pdf.setFont("Times", "bold");
                 pdf.text(totalInasistencias, x + cellWidth / 2, y, { align: "center" });
                 const textoCompletoOriginal = boleta.deberes || "";
                 const inicioNegrita = 0;
@@ -456,7 +497,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
 
                         // Si cambia el estado de negrita → pintar buffer
                         if (buffer.length > 0 && debeIrNegrita !== bufferDebeIrNegrita) {
-                            pdf.setFont("helvetica", bufferDebeIrNegrita ? "bold" : "normal");
+                            pdf.setFont("Times", bufferDebeIrNegrita ? "bold" : "normal");
                             pdf.setFontSize(fontSize);
                             pdf.text(buffer, cursorX, cursorY);
                             cursorX += pdf.getTextWidth(buffer);
@@ -474,7 +515,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
                         const debeIrNegrita =
                             bufferStartIndex >= inicioNegrita && bufferStartIndex < finNegrita;
 
-                        pdf.setFont("helvetica", debeIrNegrita ? "bold" : "normal");
+                        pdf.setFont("Times", debeIrNegrita ? "bold" : "normal");
 
                         pdf.text(buffer, cursorX, cursorY);
                     }
@@ -497,13 +538,13 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
                 const textoNormal = boleta.deberes?.slice(33, 85) || "";
 
                 // Texto en negrita
-                pdf.setFont("helvetica", "bold");
+                pdf.setFont("Times", "bold");
                 pdf.text(textoNegrita, x, y);
 
                 const anchoNegrita = pdf.getTextWidth(textoNegrita);
 
                 // Texto normal (con ajuste automático)
-                pdf.setFont("helvetica", "normal");
+                pdf.setFont("Times", "normal");
                 const textoAjustado = pdf.splitTextToSize(
                     textoNormal,
                     cellWidth - anchoNegrita
@@ -532,7 +573,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
 
         styles: {
             lineColor: [0, 0, 0],
-            font: "helvetica",
+            font: "Times",
             fontSize: fontSize,
             halign: "center",
             valign: "middle",
@@ -579,7 +620,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
     const blockWidth = pageWidth / 3;
 
     // Tamaño de fuente
-    pdf.setFont("helvetica", "bold");
+    pdf.setFont("Times", "bold");
     pdf.setFontSize(fontSize);
 
     // -------------------- DIRECTORA --------------------
@@ -609,7 +650,7 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
         startY + 55
     );
 
-    pdf.text("YRIS RAMÍREZ", xDocente, startY + 75, { align: "center" });
+    pdf.text(docente.nombre, xDocente, startY + 75, { align: "center" });
     pdf.text("DOCENTE DE AULA", xDocente, startY + 65, { align: "center" });
 
     // -------------------- COORDINADOR --------------------
@@ -628,9 +669,9 @@ export const previewBoletaPDF = async (boleta, docente, membrete, fontSizeTitle,
 
 
 
-    const blob = pdf.output("blob");
-    const url = URL.createObjectURL(blob);
-    window.open(url);
+    // const blob = pdf.output("blob");
+    // const url = URL.createObjectURL(blob);
+    // window.open(url);
 };
 
 

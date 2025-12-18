@@ -4,11 +4,10 @@ import { useNavigate } from 'react-router-dom';
 import membrete from "../../assets/membrete.png";
 import { downloadBoletaZip } from './helpers/compressFile';
 import '../../styles/boletasList.css'
-import { previewBoletaPDF } from './helpers/previewPdf';
-
-import { generateBoletaWord } from '../boletin/helpers/generateWord'
+import { downloadAllBallotsZip } from './helpers/compressFileAll';
 import generateHtmlContent from './helpers/generateHtml';
-
+import { generateBoletaAllWord } from './helpers/generateWordAll';
+import { generateBoletasAllPDF } from './helpers/generatePdfAll';
 export default function BoletasList() {
     const [boletas, setBoletas] = useState([]);
 
@@ -129,23 +128,44 @@ export default function BoletasList() {
                     <tbody>
                         {boletas.map((b) => (
                             <tr key={b.id}>
-                                <td>{b.id}</td>
-                                <td>{b.estudiante}</td>
-                                <td>{b.representante}</td>
-                                <td className="actions-cell">
+                                <td data-label="Número">{b.id}</td>
+                                <td data-label="Estudiante">{b.estudiante}</td>
+                                <td data-label="Representante">{b.representante}</td>
+                                <td data-label="Acciones" className="actions-cell">
                                     <button type="button" onClick={() => handleExplore(b)}>Explorar</button>
                                     <button type="button" onClick={() => handleEdit(b)}>Editar</button>
-                                    <button type="button" onClick={() => handleDelete(b.id)}>Eliminar</button>
+                                    <button
+                                        type="button"
+                                        onClick={() => {
+                                            if (window.confirm("¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.")) {
+                                                handleDelete(b.id);
+                                            }
+                                        }}
+                                        className='btn-delete'
+                                    >
+                                        Eliminar
+                                    </button>
                                     <button type="button" onClick={() => handlePrint(b, false)}>Imprimir</button>
-                                    <button type="button" onClick={() => generateBoletaWord(b, docente, membrete, fontSizeTitle, fontSize)}>
+                                    <button type="button" onClick={() => downloadBoletaZip(b, docente, membrete, fontSizeTitle, fontSize)}>
                                         Descargar ZIP
                                     </button>
                                 </td>
                             </tr>
                         ))}
                     </tbody>
+
                 </table>
             )}
+
+            <div className="boletas-download-right">
+                <button
+                    type="button"
+                    className="btn-download-all"
+                    onClick={() => downloadAllBallotsZip(boletas, docente, membrete, fontSizeTitle, fontSize)}
+                >
+                    Descargar Boletas
+                </button>
+            </div>
         </div>
     );
 }

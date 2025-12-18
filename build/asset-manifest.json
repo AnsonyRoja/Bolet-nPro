@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/BoletinPro/static/css/main.fc5dbf21.css",
-    "main.js": "/BoletinPro/static/js/main.e55f96b2.js",
+    "main.js": "/BoletinPro/static/js/main.0d80d925.js",
     "static/js/239.a1b64475.chunk.js": "/BoletinPro/static/js/239.a1b64475.chunk.js",
     "static/js/977.bbfb092b.chunk.js": "/BoletinPro/static/js/977.bbfb092b.chunk.js",
     "static/js/455.e8372554.chunk.js": "/BoletinPro/static/js/455.e8372554.chunk.js",
@@ -9,7 +9,7 @@
     "static/media/membrete.png": "/BoletinPro/static/media/membrete.c4a5ac18336b0c4a8f38.png",
     "index.html": "/BoletinPro/index.html",
     "main.fc5dbf21.css.map": "/BoletinPro/static/css/main.fc5dbf21.css.map",
-    "main.e55f96b2.js.map": "/BoletinPro/static/js/main.e55f96b2.js.map",
+    "main.0d80d925.js.map": "/BoletinPro/static/js/main.0d80d925.js.map",
     "239.a1b64475.chunk.js.map": "/BoletinPro/static/js/239.a1b64475.chunk.js.map",
     "977.bbfb092b.chunk.js.map": "/BoletinPro/static/js/977.bbfb092b.chunk.js.map",
     "455.e8372554.chunk.js.map": "/BoletinPro/static/js/455.e8372554.chunk.js.map",
@@ -17,6 +17,6 @@
   },
   "entrypoints": [
     "static/css/main.fc5dbf21.css",
-    "static/js/main.e55f96b2.js"
+    "static/js/main.0d80d925.js"
   ]
 }
