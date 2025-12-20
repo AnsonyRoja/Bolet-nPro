@@ -216,6 +216,12 @@ td {
     border-bottom: 1px solid #ddd;
 }
 
+.actions-buttons {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
 
 @media (max-width: 768px) {
 

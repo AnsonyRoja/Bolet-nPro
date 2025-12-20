@@ -383,8 +383,10 @@ export default function BoletinForm() {
                     />
                 </div>
 
-                <div className="section-title">Escala</div>
+
+                <div className='section-title'>Escala</div>
                 <EscalaTable register={register} />
+
             </div>
 
             <button type="submit" className="btn-guardar">

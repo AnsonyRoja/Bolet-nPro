@@ -9,14 +9,13 @@ export const downloadBoletaZip = async (boleta, docente, membrete, fontSizeTitle
     const zip = new JSZip();
     const starImg = await fetchImageAsArrayBuffer(imgStar);
 
-    // PDF desde HTML
+    // PDF Blob
 
     const pdfBlob = await generateBoletaPDF(boleta, docente, membrete, fontSizeTitle, fontSize);
 
 
 
-
-    // Word desde boleta
+    // Word Blob
     const wordBlob = await generateBoletaWord(boleta, docente, membrete, fontSizeTitle, fontSize, starImg);
 
     // Agregar archivos al ZIP

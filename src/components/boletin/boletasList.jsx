@@ -130,23 +130,25 @@ export default function BoletasList() {
                                 <td data-label="Estudiante">{b.estudiante}</td>
                                 <td data-label="Representante">{b.representante}</td>
                                 <td data-label="Acciones" className="actions-cell">
-                                    <button type="button" onClick={() => handleExplore(b)}>Explorar</button>
-                                    <button type="button" onClick={() => handleEdit(b)}>Editar</button>
-                                    <button
-                                        type="button"
-                                        onClick={() => {
-                                            if (window.confirm("¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.")) {
-                                                handleDelete(b.id);
-                                            }
-                                        }}
-                                        className='btn-delete'
-                                    >
-                                        Eliminar
-                                    </button>
-                                    <button type="button" onClick={() => handlePrint(b, false)}>Imprimir</button>
-                                    <button type="button" onClick={() => downloadBoletaZip(b, docente, membrete, fontSizeTitle, fontSize)}>
-                                        Descargar ZIP
-                                    </button>
+                                    <div className="actions-buttons">
+                                        <button type="button" onClick={() => handleExplore(b)}>Explorar</button>
+                                        <button type="button" onClick={() => handleEdit(b)}>Editar</button>
+                                        <button
+                                            type="button"
+                                            onClick={() => {
+                                                if (window.confirm("¿Estás seguro de que deseas eliminar este registro? Esta acción no se puede deshacer.")) {
+                                                    handleDelete(b.id);
+                                                }
+                                            }}
+                                            className='btn-delete'
+                                        >
+                                            Eliminar
+                                        </button>
+                                        <button type="button" onClick={() => handlePrint(b, false)}>Imprimir</button>
+                                        <button type="button" onClick={() => downloadBoletaZip(b, docente, membrete, fontSizeTitle, fontSize)}>
+                                            Descargar ZIP
+                                        </button>
+                                    </div>
                                 </td>
                             </tr>
                         ))}
