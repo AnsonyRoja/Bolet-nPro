@@ -69,7 +69,8 @@ export default function BoletasList() {
 
     const handleNewBoleta = () => {
 
-        const existeEnGuardadas = boletas.some(b => b.id === boletin.id);
+        const existeEnGuardadas = boletas.some(b => b.id === boletin?.id);
+
         if (!existeEnGuardadas) {
             navigate('/boleta',);
         } else {
